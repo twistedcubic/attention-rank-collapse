@@ -7,14 +7,17 @@ from typing import Callable, Dict, Optional
 
 import numpy as np
 import torch
-from transformers import AutoConfig, AutoModelForSequenceClassification, AutoTokenizer, EvalPrediction, GlueDataset
+from transformers import AutoConfig, AutoModelForSequenceClassification, AutoTokenizer, EvalPrediction
 from transformers import GlueDataTrainingArguments as DataTrainingArguments
-from transformers import HfArgumentParser, glue_compute_metrics, glue_output_modes, glue_tasks_num_labels, set_seed
+from transformers import glue_compute_metrics, glue_output_modes, glue_tasks_num_labels, set_seed
 
 import arguments
+from configuration_san import SANConfig
 from modeling_san import SANForSequenceClassification
 from trainer import Trainer, TrainingArguments
-
+from parser import HfArgumentParser
+from glue import GlueDataset
+import pdb
 
 # set up framework to allow paths disentangledment if
 # specified as such in the command line.
@@ -63,10 +66,10 @@ def main():
         # let's parse it to get our arguments.
         model_args, data_args, training_args = parser.parse_json_file(json_file=os.path.abspath(sys.argv[1]))
     else:
-        try:
-            model_args, data_args, training_args = parser.parse_args_into_dataclasses()
-        except ValueError as e:
-            print('Additional arguments passed not parsed by ArgumentParser: {}'.format(e))
+        # try:
+        model_args, data_args, training_args = parser.parse_args_into_dataclasses()
+        # except ValueError as e:
+        #    print('Additional arguments passed not parsed by ArgumentParser: {}'.format(e))
 
     if (
         os.path.exists(training_args.output_dir)
@@ -109,7 +112,7 @@ def main():
     # The .from_pretrained methods guarantee that only one local process can concurrently
     # download model & vocab.
 
-    config = AutoConfig.from_pretrained(
+    config = SANConfig(
         model_args.config_name if model_args.config_name else model_args.model_name_or_path,
         num_labels=num_labels,
         hidden_act="gelu",
@@ -218,6 +221,7 @@ def main():
             if test_token:
                 rand_labels = torch.randint(random_labels, (n_tok,))  # len(feat.input_ids)
                 rand_labels[torch.Tensor(feat.attention_mask) == 0] = -1
+
                 feat.label = rand_labels
             else:
                 feat.label = rand[i]
@@ -308,7 +312,7 @@ def main():
                         else:
                             item = test_dataset.get_labels()[item]
                             writer.write("%d\t%s\n" % (index, item))
-    print("ALL EPOCH LOSSES {}".format(config.train_loss_l))
+
     return eval_results
 
 

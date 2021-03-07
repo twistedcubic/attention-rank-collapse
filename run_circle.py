@@ -227,7 +227,7 @@ def main(args):
                 traj[i, :2] = cur_pt[0][0]
                 traj[i, 2:] = cur_pt[0][1]
 
-    print("traj {}".format(traj))
+    print("Trajectories {}".format(traj))
     x_ar = torch.stack((traj[:, 0], traj[:, 2]), 0)
     y_ar = torch.stack((traj[:, 1], traj[:, 3]), 0)
     plot_arg = plot.PlotArg(x_ar, y_ar)

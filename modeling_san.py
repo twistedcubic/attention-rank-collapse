@@ -142,6 +142,7 @@ class BertEmbeddings(nn.Module):
         seq_length = input_shape[1]
 
         if inputs_embeds is None:
+
             inputs_embeds = self.word_embeddings(input_ids)
 
         if self.position_embeddings is not None:

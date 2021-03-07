@@ -3,7 +3,7 @@
 
 [Yihe Dong](https://yihedong.me/), [Jean-Baptiste Cordonnier](http://jbcordonnier.com/), [Andreas Loukas](https://andreasloukas.blog/).
 
-In this work, we find that pure attention decays in rank doubly exponentially with respect to depth. We analyze how MLPs and skip connections counteract this decay. [Our paper contains further details](ARXIV link) TODO. This repository contains the code for our experiments.
+In this work, we find that pure attention decays in rank doubly exponentially with respect to depth. We analyze how MLPs and skip connections counteract this decay. [Our paper contains further details](ARXIV link). This repository contains the code for our experiments.
 
 <p>
 <img src="paths_short.png"  width="550" >

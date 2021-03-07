@@ -180,9 +180,10 @@ def main_bert(args):
     n_train_data = args.n_train_data
     n_eval_data = args.n_eval_data
 
-    data_path = "data/sort_train_data{}_seq{}.pt".format(n_train_data, args.seq_len)
+    data_path = "data/sort_train_data{}_seq{}_v{}.pt".format(n_train_data, args.seq_len, args.n_vocab)
     pathlib.Path(data_path).parent.mkdir(exist_ok=True, parents=True)
-    if True or not os.path.exists(model_path):
+    cache_data = True
+    if cache_data:
         if os.path.exists(data_path):
             data_set = torch.load(data_path)
             train_data = data_set.branch_subset(n_train_data)
@@ -215,8 +216,6 @@ def main_bert(args):
         num_labels=args.num_labels,
     )
 
-    # model = SortingModel(args)
-    # model = AutoModelForSequenceClassification.from_config(config=config)
     model = SANForSequenceClassification(config=config)
     model_path = "modelsort{}d{}_{}h{}label{}.pt".format(
         args.width, args.depth, args.seq_len, args.hidden_dim, args.n_vocab
@@ -304,10 +303,6 @@ def main_bert(args):
             metric_ar[0, path_len - args.path_len] = score_ar.mean()
             std_ar[0, path_len - args.path_len] = score_ar.std()
             print("\n", res_str)
-        # print('Enter desired path len between 1 and {}: '.format(args.depth ))
-        # path_len = input('Enter desired path len between 1  '  )
-        # path_len = input()
-        # path_len = int(path_len)
         with open(args.res_file, "a") as f:
             # f.write('~{}  \n'.format(args ))
             # f.write('path_len {} d/w {} mis_match {} eval_loss {} comp_match {} partial_match {}\n'.format(path_len, args.depth/args.width, score, eval_loss, complete_match, partial_match))
@@ -325,7 +320,7 @@ def main_bert(args):
     plot.plot_scatter(plot_arg, fname="sorting{}d{}_{}".format(args.width, args.depth, args.hidden_dim))
     #'''
     plot_res_path = "sort_res{}d{}_{}_{}.pt".format(args.width, args.depth, args.hidden_dim, args.n_paths)
-    torch.save({"metric_ar": metric_ar, "std_ar": std_ar}, os.join(plot.res_dir, plot_res_path))
+    torch.save({"metric_ar": metric_ar, "std_ar": std_ar}, os.path.join(plot.res_dir, plot_res_path))
 
     plot_res_ar = np.zeros((4, metric_ar.shape[-1]))
     plot_std_ar = np.zeros((4, metric_ar.shape[-1]))

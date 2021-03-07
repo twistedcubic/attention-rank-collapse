@@ -367,6 +367,7 @@ def main_bert(args):
             metric_ar[1, path_len - args.path_len] = soft_match_ar.mean()
             std_ar[0, path_len - args.path_len] = soft_match_ar.std()
             std_ar[1, path_len - args.path_len] = soft_match_ar.std()
+            print("\n", res_str)
 
         # print('Enter desired path len between 1 and {}: '.format(args.depth ))
         # path_len = input('Enter desired path len between 1  '  )

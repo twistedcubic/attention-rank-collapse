@@ -2,7 +2,7 @@ import argparse
 
 
 def parse_args():
-    parser = argparse.ArgumentParser()
+    parser = NoErrArg()
     parser.add_argument("--num_labels", default=3, type=int, help="number of labels")
     parser.add_argument("--n_train_data", default=30, type=int, help="number of train data")
     parser.add_argument("--n_eval_data", default=30, type=int, help="number of eval data")
@@ -68,3 +68,7 @@ def parse_args():
         # e.g. for sorting
         args.seq_len = args.num_labels
     return args
+
+class NoErrArg(argparse.ArgumentParser):
+    def error(self, err):
+        print('NOTE! ', err)
