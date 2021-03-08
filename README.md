@@ -3,7 +3,7 @@
 
 [Yihe Dong](https://yihedong.me/), [Jean-Baptiste Cordonnier](http://jbcordonnier.com/), [Andreas Loukas](https://andreasloukas.blog/).
 
-In this work, we find that pure attention decays in rank doubly exponentially with respect to depth. We analyze how MLPs and skip connections counteract this decay. [Our paper contains further details](ARXIV link). This repository contains the code for our experiments.
+In this work, we find that pure attention decays in rank doubly exponentially with respect to depth. We analyze how MLPs and skip connections counteract this decay. [Our paper contains further details](https://arxiv.org/abs/2103.03404). This repository contains the code for our experiments.
 
 <p>
 <img src="paths_short.png"  width="550" >
@@ -68,7 +68,7 @@ If you find our work useful, please cite as:
 @article{rankCollapse2021,
   title         = {Attention is not all you need, pure attention loses rank doubly exponentially with depth},
   author        = {Dong, Yihe and Cordonnier, Jean-Baptiste and Loukas, Andreas},
-  url       	= {https://arxiv.org/abs/2101.1  },
+  url       	= {https://arxiv.org/abs/2103.03404},
   year          = {2021}
   }
 ```
